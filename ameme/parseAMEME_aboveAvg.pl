@@ -51,12 +51,11 @@ while(<>){
 sub printSorted() { 
 
   #unless there are too few sequences
-  if($#seqs < $MIN) { warn "too few sequences ($#seqs) for $motif, not producing output\n"; return;}
-  else { warn "$score\t$motif ($#seqs sequences) @ $pos ($sd)\n"; }
+  if($#seqs < $MIN) { warn "==too few sequences ($#seqs) for $motif, not producing output\n"; return;}
+  else { warn "$score\t$motif\t$pos\t$sd\t$#seqs\n"; }
 
   print "$outdir$motif.fa\n";
   open my $mofile, ">$outdir$motif.fa" or die "cannot open $motif.txt: $!"; 
-  
 
   #make a fasta of all sequences with above average scores
   #>name-motif-(score@pos-sd)
@@ -65,11 +64,12 @@ sub printSorted() {
       # ->0 score
       # ->1 name
       # ->2 sequence
-      #print seq to new fasta file if it scored better than average
+      #print seq to new fasta file if it scored better than a std dev from average
       print $mofile 
 	    ">",$s->[1]."-$motif(".$s->[0],"\@$pos-$sd)\n",
 	    $s->[2],"\n" 
-	if $s->[0] > $score;
+	if ($s->[0] > $score+1);
+      #warn "\t", $s->[0], "\n"
   }
   close $mofile;
 }

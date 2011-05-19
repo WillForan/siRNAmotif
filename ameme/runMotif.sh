@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-RESULTSFILE="results-$(date +%F-%H-%M).txt"
+RESULTSFILE="results/results-$(date +%F-%H-%M).txt"
 
 export PARSER=./parseAMEME_aboveAvg.pl
 export RUNS=4
@@ -28,8 +28,8 @@ function runmeme() {
 }
 export AMEMEOPTIONS="background=m2 gif=/dev/null numMotifs=2 controlRun=on"
 
-for m in {m0,m1,m2,coding}; do
-    for n in {1,2,3,4,5}; do
+for m in {m0,m1,m2,coding}; do #not using 'coding'
+    for n in {1,2,3,4}; do
       export AMEMEOPTIONS="background=$m gif=/dev/null numMotifs=$n controlRun=on"
       runmeme
      done

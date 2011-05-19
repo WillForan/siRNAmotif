@@ -36,7 +36,7 @@ function runmeme(){
     run=$(($run+1));
     ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2>outputs/output-$run-$(basename $1 .fa).txt | $PARSER | while read filename; do
 	if [ $run -lt $RUNS ]; then
-	   echo "-> $filename (iteration $run)";
+	   echo "=> $filename (iteration $run)";
 	   runmeme $filename
 	fi
     done;
@@ -44,7 +44,7 @@ function runmeme(){
 
 run=0;
 #echo running intitial
-echo $STARTFILE with $AMEMEOPTIONS
+echo "=> $STARTFILE with $AMEMEOPTIONS"
 runmeme $STARTFILE
 
 
