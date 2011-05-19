@@ -6,6 +6,8 @@
 # RANDFILE	-- fasta of random intergenic region
 # RUNS		-- number of recursiosn before completing
 # STARTFILE	-- file containing initial sequences in which a motif is saught
+# PARSER	-- perl script that will parse output 
+#		    (.._topThird.pl or ..._aboveAvg.pl
 
 
 if [  "$AMEMEOPTIONS" == "" ]; then
@@ -26,9 +28,13 @@ if [  "$RUNS" == "" ]; then
     RUNS=4;
 fi
 
+if [  "$PARSER" == "" ]; then
+    PARSER= ./parseAMEME_topThird.pl;
+fi
+
 function runmeme(){
     run=$(($run+1));
-    ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2>outputs/output-$run-$(basename $1 .fa).txt | ./parseAMEME.pl | while read filename; do
+    ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2>outputs/output-$run-$(basename $1 .fa).txt | $PARSER | while read filename; do
 	if [ $run -lt $RUNS ]; then
 	   echo "-> $filename (iteration $run)";
 	   runmeme $filename

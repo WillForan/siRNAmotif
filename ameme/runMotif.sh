@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-export RUNS=4
 
-RESULTSFILE="results-$(date %F-%H-%M).txt"
+RESULTSFILE="results-$(date +%F-%H-%M).txt"
+
+export PARSER=./parseAMEME_aboveAvg.pl
+export RUNS=4
 
 
 function runmeme() {
