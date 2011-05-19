@@ -1,0 +1,7 @@
+runProjection.sh -- runs findmotif for expected size {7..15} on different fasta files
+    random file causes fault. Don't know why
+
+to complie projection needed to change makeconfig:
+ changed DATA_DIR
+ add -Wno-long-long to cflags (get rid of the long long not standard error)
+ comment out ARCH line (this is not a pentium pc)
