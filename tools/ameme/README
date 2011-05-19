@@ -23,3 +23,5 @@ results			-- store result text files produced by runMotif
 
 ===in general this is what we want to run
 ameme good=../fas/300_top.fasta bad=../fas/randomIntergenic-2011-05-12-14\:24.fa > output
+
+=== ameme was compiled from kent source and put into bin/x86_64. it was nessary to set MACHTYPE=`uname -p` to compile
