@@ -1,0 +1,25 @@
+CONCLUSION: improbizer does not find significant motifs in data
+
+runMotif.sh is the primary tool (wrapper)
+  iteration information is prefixed with an =
+  the rest of the output has the form
+    3.7838  TTATAAA 37.25   3.7838  299
+    score   motif   pos     st      sequences used
+    
+-- never looked at the "motifOutput" option
+
+===LISTINGS
+parseAMEME_aboveAvg.pl		-- parse ameme and print new fasta files based on score
+parseAMEME_topThird.pl		-- parse ameme and print new fasta files based on rank
+recurse_motif.sh		-- run ameme for each new fasta file created by the perl parser (default 4 iterations)
+runMotif.sh			-- Pull all of it together and run on options in a for loop: background={m0..2}; numMotifs={1..3}
+
+results/tabDelimOutput.sh	-- parse results to table
+				    e.g. 
+				./tabDelimOutput.sh results-2011-05-19-12-48.txt |sort  -nr | head -n 10
+===DIRECTORIES
+outputs			-- output of perl parser (stores a bunch of fasta files)
+results			-- store result text files produced by runMotif
+
+===in general this is what we want to run
+ameme good=../fas/300_top.fasta bad=../fas/randomIntergenic-2011-05-12-14\:24.fa > output
