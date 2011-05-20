@@ -1,0 +1,18 @@
+GOAL: find motif's (promotors) for siRNA transcription in PF3D7
+DATA: sRNA deep-seq -> selected "top" 300 (see SQL statement in genfasta: 18<length<24, not "%RNA%", top  maxcov)
+
+genRandom.sh			--  get random sequences (into fasta file) from intergenic region
+genfasta.sh			--  create fasta from 100nt upstream of siRNA candidates (uses srna.db)
+intergenicRegionsFromGFF.sh	--  determined intergenic regions from provided gene feature file
+scoreWithLogo.pl		--  provide logo (-m "A.5 C.5 T1 ...") and sequences (< seqs.fa) and get best scoring motifs
+seq2Logo.pl			--  generate logo in from expected by scoreWithLogo.pl
+stats.awk			--  quick awk script to generate min,max, and mean (std not computed correctly)
+
+
+MOTIF TOOLS:
+
+BioProspector
+alignACE			-- useful but always uses reverse complement (undesired behavior)
+ameme				-- unsucessful
+projections
+suffixtrie (perl module)	-- not useful
