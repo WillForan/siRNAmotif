@@ -25,7 +25,7 @@ function runmeme() {
     ./recurse_motif.sh
 }
 
-for m in {m0,m1,m2,coding}; do #not using 'coding'
+for m in {m0,m1,m2}; do #not using 'coding'
     for n in {1,2,3,4}; do
       export AMEMEOPTIONS="background=$m gif=/dev/null numMotifs=$n"
       runmeme

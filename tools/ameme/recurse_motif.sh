@@ -17,6 +17,7 @@ fi
 if [  "$OUTPUTDIR" == "" ]; then
     OUTPUTDIR="outputs"
 fi
+mkdir -p $OUTPUTDIR/results
 
 if [  "$RANDFILE" == "" ]; then
     RANDFILE=../fas/randomIntergenic-2011-05-12-14\:24.fa 
@@ -38,7 +39,7 @@ fi
 
 function runmeme(){
     run=$(($run+1));
-    ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2> ${OUTPUTDIR}/output-$run-$(basename $1 .fa).txt | $PARSER | while read filename; do
+    ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2>> ${OUTPUTDIR}/STDERR.txt | tee ${OUTPUTDIR}/results/$run-$(basename $1 .fa).txt | $PARSER | while read filename; do
 	if [ $run -lt $RUNS ]; then
 	   echo "=> $filename (iteration $run)";
 	   runmeme $filename

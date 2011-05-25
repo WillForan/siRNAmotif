@@ -6,7 +6,7 @@ use strict; use warnings;
 
 #where to store output files
 my $outdir="outputs/"; #need ending /
-my $MIN=10; #min number of sequences needed to produce output
+my $MIN=5; #min number of sequences needed to produce output
 
 #intiialize
 my $motif='';
