@@ -55,7 +55,7 @@ sub printSorted() {
   else { warn "$score\t$motif\t$pos\t$sd\t$#seqs\n"; }
 
   print "$outdir$motif.fa\n";
-  open my $mofile, ">$outdir$motif.fa" or die "cannot open $motif.txt: $!"; 
+  open my $mofile, ">$outdir$motif.fa" or die "cannot open $motif.fa: $!"; 
 
   #make a fasta of all sequences with above average scores
   #>name-motif-(score@pos-sd)
