@@ -1,13 +1,15 @@
+-----genetic
+
 1) geneticFromGFF.sh
-
   -> gentic_region.txt
-2) randomGene.sh
-  -> ../fas/randomInGene.fa
 
-3) randomUpGene.sh
-  -> ../fas/randomUpGene.fa
+2) randomGene.sh > ../fas/randomInGene-$(date +%F-%H-%M).fa
+
+3) randomUpGene.sh > ../fas/randomUpGene.fa
+
+-------intergenic
 
 1) intergenicRegionsFromGFF.sh
   -> iReg.txt
-2) genRandom.sh
-  -> ../fas/randomIntergenic-$(date)
+
+2) genRandom.sh >../fas/randomIntergenic-$(date +%F-%H-%M)
