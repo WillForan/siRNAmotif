@@ -20,8 +20,8 @@ if(!$cgi->param('file') && !($cgi->param('date')||$cgi->param('type') )  ){
     opendir my $dir, $root.'results/' or die 'cannot open results directory\n';
 
     while(my $file = readdir($dir) ){
-     if($file=~/results-((intergenic)|(ingene))-([0-9\-]+).txt$/) {
-	 print "<a href=\"?file=$file&date=$4&type=$1\" >$file </a><br>\n";
+     if($file=~/results-(.*)-(2011-[0-9\-]+).txt$/) { #change here if ever generating output after this year
+	 print "<a href=\"?file=$file&date=$2&type=$1\" >$file </a><br>\n";
      }
     }
     print "--\n";
