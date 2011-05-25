@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 
-RESULTSFILE="results/results-$(date +%F-%H-%M).txt"
+export OUTPUTDIR="outputs/intergenic/$(date +%F-%H-%M)/"
+mkdir -p $OUTPUTDIR;
+
+RESULTSFILE="results/results-intergenic-$(date +%F-%H-%M).txt"
 
 export PARSER=./parseAMEME_aboveAvg.pl
 export RUNS=4
