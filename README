@@ -13,6 +13,7 @@ MOTIF TOOLS:
 
 BioProspector
 alignACE			-- useful but always uses reverse complement (undesired behavior)
-ameme				-- unsucessful
+ameme				-- unsucessful (installed to ~/bin/x86_64)
 projections
 suffixtrie (perl module)	-- not useful
+MEME				-- (installed to ~/bin)

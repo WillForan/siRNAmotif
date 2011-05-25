@@ -2,6 +2,17 @@
 use strict; use warnings;
 use Data::Dumper;
 
+#
+# Score sequences (log addition) with moving window based on provided logo/motif
+#
+# less negative is better
+#
+# does not handle fasta spanning multiple lines (yet)
+
+#USAGE EXAMPLE:
+# ./scoreWithLogo.pl -m "$(./seq2Logo.pl logos/logo_fromAlignACE)" fas/300_top.fa |
+# |sed 's/[()]//g;s/^-1/a/;s/^1/s/;s/-/\t/;s/-/\t/;s/chr/\tchr/' #last part formats special for 300_top
+
 my @motif;
 use Getopt::Std;
 my %opt;
@@ -18,7 +29,7 @@ while($opt{'m'}=~m/([ATGCNatgcn])(0?\.?\d+)/g) {
 
   #print "$1 (pos $i) makes sum $2 bigger: $sum\n"; # just checking :)
 }
-print Dumper(@motif); #just checking
+#print Dumper(@motif); #just checking
 
 my $id='none';
 my $indx=0;
@@ -32,7 +43,7 @@ my @pos=();
 while(<>) {
  chomp;
  if(/^>/) { 
-    $id = substr($_,2); 
+    $id = substr($_,1); 
     $indx=0; 
     $count=1;
     $below=0;
@@ -68,7 +79,7 @@ while(<>) {
      }
 
      #just to check, print whats going on
-     print "$i\t", @seq,"\t$score\n";
+     #print "$i\t", @seq,"\t$score\n";
 
      #update best if we can
      if ($score==$maxscore) { $count+=1; push @pos, $i; }
@@ -85,5 +96,6 @@ while(<>) {
      #move window over one
      $i++;
  }
- print "best score $maxscore at ",join(',',@pos), " ($below below)\n";
+ #print "best score $maxscore at ",join(',',@pos), " ($below below)\n" if $maxscore!="-Inf";
+ print "$id\t$maxscore\t(",join(',',@pos), ")\n" if $maxscore!="-Inf";
 }

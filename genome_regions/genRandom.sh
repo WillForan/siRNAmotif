@@ -12,7 +12,11 @@
 #Max size of reads
 SIZEofSEQ=101;
 #input file
-FILE=./iReg.txt; 
+FILE=$SEQFILE
+if [ "$SEQFILE" == "" ]; then
+    FILE=./genomic_regions/iReg.txt; 
+fi
+
 WC=$(wc -l $FILE|cut -f1 -d ' ');
 
 #set number of sequences to use, default to 300
@@ -20,6 +24,7 @@ NUMofSEQ=300;
 if [ -n "$1" ]; then
   NUMofSEQ=$1;
 fi
+
 
 
 #get two lines (as one) from intergenic file ( only one if happens to hit '>' line)
