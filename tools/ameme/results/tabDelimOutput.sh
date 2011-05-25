@@ -1,3 +1,5 @@
+#print 
+# score	motif	position	std	background(m0,m1,m2)		#sequnces	#motifs	iteration
 awk 'BEGIN{run="";it=0; back=" ";motif=" "}{  
     if(/too few/){ next} 
     if(/^==/){run=substr($0,5); next} 
