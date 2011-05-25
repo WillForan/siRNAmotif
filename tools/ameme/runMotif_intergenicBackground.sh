@@ -29,11 +29,11 @@ function runmeme() {
     export STARTFILE=../../fas/300_top.fa
     ./recurse_motif.sh
 }
-export AMEMEOPTIONS="background=m2 gif=/dev/null numMotifs=2 controlRun=on"
+#export AMEMEOPTIONS="background=m2 gif=/dev/null numMotifs=2 controlRun=on"
 
 for m in {m0,m1,m2,coding}; do #not using 'coding'
     for n in {1,2,3,4}; do
-      export AMEMEOPTIONS="background=$m gif=/dev/null numMotifs=$n controlRun=on"
+      export AMEMEOPTIONS="background=$m gif=/dev/null numMotifs=$n"
       runmeme
      done
 done 2>&1 |tee $RESULTSFILE

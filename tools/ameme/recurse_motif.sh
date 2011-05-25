@@ -39,7 +39,9 @@ fi
 
 function runmeme(){
     run=$(($run+1));
-    ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2>> ${OUTPUTDIR}/STDERR.txt | tee ${OUTPUTDIR}/results/$run-$(basename $1 .fa).txt | $PARSER | while read filename; do
+    back=$(echo $AMEMEOPTIONS|sed 's/.*background=\(m[0-4]\).*/\1/');
+    motifs=$(echo $AMEMEOPTIONS|sed 's/.*numMotifs=\([0-9]\).*/\1/');
+    ameme good=$1 bad=$RANDFILE $AMEMEOPTIONS 2>> ${OUTPUTDIR}/STDERR.txt | tee ${OUTPUTDIR}/results/$run-$motifs-$back-$(basename $1 .fa).txt | $PARSER | while read filename; do
 	if [ $run -lt $RUNS ]; then
 	   echo "=> $filename (iteration $run)";
 	   runmeme $filename
