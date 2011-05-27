@@ -2,7 +2,12 @@
 
 file=gentic_region.txt
 numseqs=300
-seqlength=101
+
+seqlength=1000
+if [ -n "$1" ]; then
+ seqlength=$1
+ echo "upstream set to $Upstream" 1>&2
+fi
 
 while read chrom start end strand; do
  #s----------------------------e#  sequence
@@ -37,10 +42,4 @@ while read chrom start end strand; do
  
  /home/RNA/PlasmodiumFalciparum/genome/pos2seq.pl chr$chrom:$start-$end
 
-
-
-
-
-
-
-done < <(shuffle $file|head -n $numseqs)
+done < <(shuffle $file|head -n $numseqs) > ../fas/randomInGene-$(date +%F-%H-%M).fa
