@@ -1,5 +1,11 @@
-# in /home/RNA/bin
+# jellyfish usage looks like
 jellyfish count ../../fas/300_top.fa -m 6 -o top300_up100nt -c 3 -s 10000000
 jellyfish dump top300_up100nt* | awk '{if(NR%2==1){ printf substr($0,2) }else{print "\t" $0}}'|sort -nr |head
 
+#to run on a bunch of data (top300, upgene, ingene, logo)
+run_jelly.sh
+
+#to search for motifs using kmer words
+mkPWM.sh
+#the sh scores with awk and passes to perl (mkPWM.pl) to create the PWM
 
