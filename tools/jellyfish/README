@@ -9,4 +9,3 @@ run_jelly.sh
 mkPWM.sh
 #the sh scores with awk and passes to perl (mkPWM.pl) to create the PWM
 
-
