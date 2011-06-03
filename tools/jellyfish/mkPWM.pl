@@ -5,15 +5,17 @@ use strict; use warnings;
 # create position weight matrix from jellyfish dump output (as parsed by mkPWM.sh)
 # expect input in the form of
 #
-# kmerseq kmerscore
+# kmer_seq kmer_score kmer_freq(in intereted area)
 ####
 
 #thresholds
-my $scoreThres=1;
-my $numMotifs=10;
-my $maxMismatch=2;
+my $scoreThres=1;	#don't consered anything <= background word frequency
+my $numMotifs=10;	#???
+my $maxMismatch=2;	#set to 40% length in GEMS paper
 
 #data strcuture
+#$seq[1]=[ 'AAAAA', 3, 134 ]
+#          seq, times overrep., actual freq
 my @seq;
 
 #count number of mismatchs between strings
@@ -33,8 +35,8 @@ sub pwm {
 	    push @belongToTop, $_ if $ispart;				#add to seqs in top;
 	    !$ispart 							#returns false if it's not part, so is kept in array
 	} @seq;
-   print "found $#belongToTop allowing $thres mismatches for $top (amoung $#seq)\n";
-   return @belongToTop;
+    #print "found $#belongToTop allowing $thres mismatches for $top (amoung $#seq)\n";
+    return @belongToTop;
 
 }
 #grab kmer and its score
@@ -70,11 +72,25 @@ for my $thres (2..$maxMismatch){
     }
 }
 
+use Data::Dumper;
 #print the outputs
 foreach my $motif (@motifs) {
     print "\n==== $#{$motif}\n";
+    my %PWM;
+    #A => [3,0,2,3]
+    #T => [1,4,2,1]
+    
     foreach  (@{$motif}) {
-	print join("\t",@{$_}),"\n";
+	#print join("\t",@{$_}),"\n";
+	#my $seq=$_->[0];
+	my $freq=$_->[2];
+	my @s = split //, $_->[0];
+	for my $pos (0..$#s) {
+	    #eg  PWM{A}[0]=20, or a in the 1st pos happens 20 times 
+	    $PWM{$s[$pos]}[$pos]+=$freq;
+	}
+	
     }
+    print Dumper(%PWM),"\n";
 }
 
