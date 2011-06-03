@@ -10,7 +10,7 @@ use strict; use warnings;
 
 #thresholds
 my $scoreThres=1;	#don't consered anything <= background word frequency
-my $numMotifs=10;	#???
+my $numMotifs=5;	#???
 my $maxMismatch=2;	#set to 40% length in GEMS paper
 
 #data strcuture
@@ -72,25 +72,39 @@ for my $thres (2..$maxMismatch){
     }
 }
 
-use Data::Dumper;
-#print the outputs
+
+#build me up buttercup (get actual frequence of each letter using #of times kmer exists)
 foreach my $motif (@motifs) {
-    print "\n==== $#{$motif}\n";
+
+    #loop through once to get total
+    my $totalOccur;
+    $totalOccur+=$_->[2] for (@{$motif});
+
+
+    #create matrix
     my %PWM;
-    #A => [3,0,2,3]
-    #T => [1,4,2,1]
-    
+
+    $PWM{$_}=[ (0) x length($motif->[0][0]) ] for ('A','T','G','C');
+    #init pwm to an array of 0s of the length of the first motif's first word (motif->[0][0])
+    #PWM{'A'} => [ 0, 0, 0, ..]
+    #     T   =>  ...
+    #     ...
+
     foreach  (@{$motif}) {
-	#print join("\t",@{$_}),"\n";
-	#my $seq=$_->[0];
 	my $freq=$_->[2];
 	my @s = split //, $_->[0];
 	for my $pos (0..$#s) {
 	    #eg  PWM{A}[0]=20, or a in the 1st pos happens 20 times 
-	    $PWM{$s[$pos]}[$pos]+=$freq;
+	    $PWM{$s[$pos]}[$pos]+=$freq/$totalOccur;
 	}
 	
     }
-    print Dumper(%PWM),"\n";
+
+    #display the  PWM (PSSM)
+    print "\nseed $motif->[0][0], $#{$motif} words,  $totalOccur occurances\n";
+    #print  " \t", join("\t", (1..6)), "\n"; #print row of postion numbers
+
+    #print letter   .3f% of each score in the letter array                for each letter
+    print  "$_\t", join("\t", map {sprintf "%.3f", $_} @{$PWM{$_}}), "\n" for (keys %PWM);
 }
 

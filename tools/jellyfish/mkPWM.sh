@@ -7,7 +7,10 @@ function RegionOverRandom() {
     # eg.
     #  ATAT 23
     #  TAAT 22
-    join -e 0 <($jellydump 300_top_0) <($jellydump randomInGene-2011-05-25-15-10_0) | awk '{print $1, $2/$3, $2}'
+    join -e 0 <($jellydump logo_1000_up_2011-05-27-10-50-6_0) <($jellydump randomInGene-2011-05-25-15-10_0) | 
+    awk '{print $1, $2/$3, $2}' #provides word, 'score', and # occucrances
 }
 
-RegionOverRandom|sort -nr -k2|./mkPWM.pl
+RegionOverRandom|	#score
+   sort -nr -k2|	#rank
+   ./mkPWM.pl		#process
