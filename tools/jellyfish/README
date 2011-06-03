@@ -1,0 +1,5 @@
+# in /home/RNA/bin
+jellyfish count ../../fas/300_top.fa -m 6 -o top300_up100nt -c 3 -s 10000000
+jellyfish dump top300_up100nt* | awk '{if(NR%2==1){ printf substr($0,2) }else{print "\t" $0}}'|sort -nr |head
+
+
