@@ -15,11 +15,11 @@ shuffle $file | while read chrom start end strand; do
     if [ $start -lt $seqlength ];then  echo 'starts too close to beginning' 1>&2; continue; fi;
 
     #count it
-    $i=$(($i+1));
+    i=$(($i+1));
 
 
     #give seq a name (genomic position, direction, start
-    echo ">$chrom:$start-${end}($strand)"
+    echo ">chr$chrom:$start-${end}($strand)"
 
 
 
