@@ -10,7 +10,7 @@
 # length is defined by that used in genfasta.sh (SIZEofSEQ=101)
 
 #Max size of reads
-SIZEofSEQ=101;
+SIZEofSEQ=1001;
 #input file
 FILE=$SEQFILE
 if [ "$SEQFILE" == "" ]; then
