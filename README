@@ -1,6 +1,28 @@
 GOAL: find motif's (promotors) for siRNA transcription in PF3D7
 DATA: sRNA deep-seq -> selected "top" 300 (see SQL statement in genfasta: 18<length<24, not "%RNA%", top  maxcov)
 
+
+#make fasta
+cd genome_regions/
+./randomInGene.sh 1000 #../fas/randomInGene_${seqlength}-$(date +%F-%H-%M).fa
+./candidateFasta.sh > ../fas/300_top_1000.fa
+
+#mask repeats
+cd ../fas/
+RepeatMasker -dir 'masked' -norna randomInGene_....
+RepeatMasker -dir 'masked' -norna 300_top_....
+
+#get kmer count
+cd ../tools/jellyfish/
+./run_jelly.sh
+
+#get matrix
+export MKPWM_BACK='jellyout/masked/randomInGene-...'
+export MKPWM_FOR='jellyout/masked/300_top_...'
+./mkPWM.sh
+
+
+-----------------------------------------------------------
 genRandom.sh			--  get random sequences (into fasta file) from intergenic region
 genfasta.sh			--  create fasta from 100nt upstream of siRNA candidates (uses srna.db)
 intergenicRegionsFromGFF.sh	--  determined intergenic regions from provided gene feature file
