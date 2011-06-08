@@ -6,7 +6,7 @@
 #
 
 
-PAD=100
+PAD=1000
 DB=/home/wforan1/seq/srna/data/srna.db
 POS2SEQ=/home/RNA/PlasmodiumFalciparum/genome/pos2seq.pl
 
@@ -35,5 +35,5 @@ while read chrom start end strand cov ag; do
 
   echo ">($strand-$cov-$ag)chr$chrom:$start-$end"
   $POS2SEQ chr$chrom:$s-$start
-done
+done |tee ../fas/300_top_$PAD.fa
 
