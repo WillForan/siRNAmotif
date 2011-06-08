@@ -9,7 +9,11 @@ if [ -n "$1" ]; then
  echo "upstream set to $Upstream" 1>&2
 fi
 
-while read chrom start end strand; do
+shuffle $file | while read chrom start end strand; do
+
+ #only get numseqs sequences
+ if [ $i -gt $numseqs ];then break; fi;
+
  #s----------------------------e#  sequence
  #wxxxxxxxxxxxxxxxxxx----------e#  xxxx is working length
  #          r---------------l   #  r is s+wl, l is r+seqlength
@@ -19,6 +23,8 @@ while read chrom start end strand; do
  
  if [ $len -lt $seqlength ];then continue; fi;
 
+ i=$(($i+1));
+ 
  workinglen=$(($len-$seqlength));
  if [ $workinglen == 0 ]; then 	
  	position=0;
@@ -42,4 +48,4 @@ while read chrom start end strand; do
  
  /home/RNA/PlasmodiumFalciparum/genome/pos2seq.pl chr$chrom:$start-$end
 
-done < <(shuffle $file|head -n $numseqs) > ../fas/randomInGene-$(date +%F-%H-%M).fa
+done > ../fas/randomInGene_${seqlength}-$(date +%F-%H-%M).fa
