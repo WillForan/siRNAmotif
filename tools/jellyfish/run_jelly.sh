@@ -23,7 +23,7 @@ function runjelly() {
 
 fasdir=/home/wforan1/seq/srna/lab/motif/fas/masked
 
-ls -b ${fasdir}*masked | while read file; do
+ls -b ${fasdir}/*masked | while read file; do
   runjelly $file
 done
 
