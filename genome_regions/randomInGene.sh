@@ -9,10 +9,12 @@ if [ -n "$1" ]; then
  echo "upstream set to $Upstream" 1>&2
 fi
 
+i=0
+
 shuffle $file | while read chrom start end strand; do
 
  #only get numseqs sequences
- if [ $i -gt $numseqs ];then break; fi;
+ if [ $i -gt $numseqs ]; then break; fi;
 
  #s----------------------------e#  sequence
  #wxxxxxxxxxxxxxxxxxx----------e#  xxxx is working length
