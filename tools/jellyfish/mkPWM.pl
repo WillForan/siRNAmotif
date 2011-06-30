@@ -7,11 +7,11 @@ getopt('n:m:t:f:b:k:',\%opt);
 # MkPWM
 # create position weight matrix from jellyfish dump output (as parsed by mkPWM.sh)
 # expect input in the form of
-$Getopt::Std::STANDARD_HELP_VERSION = 1;
-sub main::HELP_MESSAGE {
+$Getopt::Std::STANDARD_HELP_VERSION=1;
+sub HELP_MESSAGE {
     print qq{
     USEAGE: $0 [options]
-    Run GEMS like algorithm on kmer frequency fore/back-ground files to ellicite motifs
+    Run GEMS like algorithm on kmer frequency fore/back-ground files to elicit motifs
 
     -r  make output human readable (instead of patcan format)
     -n  number of motifs 
@@ -22,6 +22,7 @@ sub main::HELP_MESSAGE {
     -b  background file (e.g. randomInGene)\n};
     exit;
 }
+HELP_MESSAGE if $opt{h};
 ####
 
 

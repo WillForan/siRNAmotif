@@ -6,6 +6,4 @@ jellyfish dump top300_up100nt* | awk '{if(NR%2==1){ printf substr($0,2) }else{pr
 run_jelly.sh
 
 #to search for motifs using kmer words
-mkPWM.sh
-#the sh scores with awk and passes to perl (mkPWM.pl) to create the PWM
-
+./mkPWM.pl -r -k5
