@@ -13,3 +13,12 @@
   -> iReg.txt
 
 2) genRandom.sh >../fas/randomIntergenic-$(date +%F-%H-%M)
+
+-----upgene
+
+
+--- Repeatmask all
+
+./maskall.sh
+#RepeatMasker -dir 'masked' -norna *fa     
+

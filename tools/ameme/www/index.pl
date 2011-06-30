@@ -54,7 +54,7 @@ print <<HERDOC
 HERDOC
 ;
 
-my $cmd="$root/results/tabDelimOutput.sh $root/results/". $cgi->param('file'). " | ";
+my $cmd="$root/results/tabDelimOutput.pl $root/results/". $cgi->param('file'). " | ";
 open my $rstPipe, $cmd or die 'broken pipe';
 
 my @fields=('score','seq','pos','std','numseq','background','motifs','run','iteration','from');

@@ -7,19 +7,19 @@ cd genome_regions/
 ./randomInGene.sh 1000 #../fas/randomInGene_${seqlength}-$(date +%F-%H-%M).fa
 ./candidateFasta.sh > ../fas/300_top_1000.fa
 
-#mask repeats
-cd ../fas/
-RepeatMasker -dir 'masked' -norna randomInGene_....
-RepeatMasker -dir 'masked' -norna 300_top_....
-
-#get kmer count
-cd ../tools/jellyfish/
-./run_jelly.sh
+#mask and count
+cd ../
+./maskAndCount.sh
+KMER=5 ./maskAndCount.sh
+KMER=7 ./maskAndCount.sh
 
 #get matrix
+cd tools/jellyfish/
 export MKPWM_BACK='jellyout/masked/randomInGene-...'
 export MKPWM_FOR='jellyout/masked/300_top_...'
-./mkPWM.sh
+./mkPWM.sh > motifs/5mer.motifs
+
+#get sequences matching
 
 
 -----------------------------------------------------------

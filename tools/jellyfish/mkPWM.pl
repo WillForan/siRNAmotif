@@ -1,17 +1,46 @@
 #!/usr/bin/env perl
 use strict; use warnings;
+use Getopt::Std;
+my %opt; 
+getopt('n:m:t:f:b:k:',\%opt);
 ####
 # MkPWM
 # create position weight matrix from jellyfish dump output (as parsed by mkPWM.sh)
 # expect input in the form of
-#
-# kmer_seq kmer_score kmer_freq(in intereted area)
+$Getopt::Std::STANDARD_HELP_VERSION = 1;
+sub main::HELP_MESSAGE {
+    print qq{
+    USEAGE: $0 [options]
+    Run GEMS like algorithm on kmer frequency fore/back-ground files to ellicite motifs
+
+    -r  make output human readable (instead of patcan format)
+    -n  number of motifs 
+    -m  maximum mismatches to allow in building motif
+    -t  # <= background frequence skipped
+    -k  kmer base for file name (overrides f and b)
+    -f  foreground file (e.g 300_top)
+    -b  background file (e.g. randomInGene)\n};
+    exit;
+}
 ####
 
+
+my $READABLE   = $opt{r} || 0;
 #thresholds
-my $scoreThres=1;	#don't consered anything <= background word frequency
-my $numMotifs=5;	#???
-my $maxMismatch=2;	#set to 40% length in GEMS paper
+my $scoreThres = $opt{t} || 1;	#don't consered anything <= background word frequency
+my $numMotifs  = $opt{n} || 5;	#??? -- number of similiarities removed from pool at each mismatch iteration
+my $maxMismatch= $opt{m} || 2;	#set to 40% length in GEMS paper
+
+#specifying k overides f or b
+# and no option can be 0 or ''
+my $foreground = defined $opt{k} ? "jellyout/masked/300_top_1000-$opt{k}_0" :0 ||
+		 $opt{f} || 
+		 'jellyout/masked/300_top_1000-6_0';
+my $background = defined $opt{k} ? "jellyout/masked/randomInGene-2011-05-25-15-10-$opt{k}_0" :0 ||
+		 $opt{b} || 
+                 'jellyout/masked/randomInGene-2011-05-25-15-10-6_0';
+
+#print STDERR "$foreground $background\n"; exit;
 
 #data strcuture
 #$seq[1]=[ 'AAAAA', 3, 134 ]
@@ -39,8 +68,19 @@ sub pwm {
     return @belongToTop;
 
 }
+
+#get ranked sequences
+my $jellydump='jellyfish dump -t -c';
+my $pipe = "bash -c 'join -e 0 <($jellydump $foreground) <($jellydump $background)' | 
+            awk '{print \$1, \$2/\$3, \$2}' |
+            sort -nr -k2|";
+#output like:	GATAAC 4.33333 39
+
+open my $randomOverRegionSortedFH, $pipe
+     or die "cannot open randomOverRegionSorted: $!\n";
+
 #grab kmer and its score
-while (<>) {
+while (<$randomOverRegionSortedFH>) {
     chomp;
     #push @seq, [(split / /)];
     my @line=split /\s/;
@@ -100,11 +140,22 @@ foreach my $motif (@motifs) {
 	
     }
 
-    #display the  PWM (PSSM)
-    print "\nseed $motif->[0][0], $#{$motif} words,  $totalOccur occurances\n";
-    #print  " \t", join("\t", (1..6)), "\n"; #print row of postion numbers
+    if($READABLE==1){
+	#display the  PWM (PSSM)
+	print "\nseed $motif->[0][0], $#{$motif} words,  $totalOccur occurances\n";
+	#print  " \t", join("\t", (1..6)), "\n"; #print row of postion numbers
 
-    #print letter   .3f% of each score in the letter array                for each letter
-    print  "$_\t", join("\t", map {sprintf "%.3f", $_} @{$PWM{$_}}), "\n" for (keys %PWM);
+	#print letter   .3f% of each score in the letter array                for each letter
+	print  "$_\t", join("\t", map {sprintf "%.3f", $_} @{$PWM{$_}}), "\n" for (keys %PWM);
+    }
+
+    if(!$READABLE){
+	#write motif for patscan
+	my @poses;
+	for my $pos (0..length($motif->[0][0])-1){
+	     push @poses, "(". join(",", map {100*sprintf("%.2f",$PWM{$_}->[$pos]) } ('A', 'C', 'G', 'T')) . ")";
+	}
+	print "$motif->[0][0]: {", join (",",@poses), "}\n";
+    }
 }
 
