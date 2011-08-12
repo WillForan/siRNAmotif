@@ -29,4 +29,4 @@ ls -b ${maskdir}*masked | while read file; do
     fi
 done
 
-echo "Now run tools/jellyfish/mkPWM.sh with MKPWM_BACK and MKPWM_FOR set"
+echo " Run with KMER=?; and run tools/jellyfish/mkPWM.pl with -b and -f set"

@@ -13,11 +13,11 @@ InBedFile=../fas/300_top.bed
 UpBedFile=../fas/300_top_${PAD}up.bed
 FAFILE=../fas/300_top_$PAD.fa
 i=1;
-#rm $FAFILE;
+rm $FAFILE;
 echo "track name=\"putitive_miRNA\" description=\"candidate miRNA $(date +%F)\" visibility=2 itemRgb=On" > $InBedFile
 echo "track name=\"${PAD}UPmiRNA\" description=\"$PAD upstream of candidate miRNA\" visibility=2 itemRgb=On" > $UpBedFile
 
-sqlite3 -separator ' ' $DB  'select chrom,start,end,strand,cov,antiGene from candidates where length>18 and length<24 and antiGene not like "%RNA%" order by maxcov desc limit 300 ' |
+sqlite3 -separator ' ' $DB  'select chrom,start,end,strand,cov,antiGene from candidates where length>18 and length<24 and antiGene not like "%RNA%" and start>5000 order by maxcov desc limit 300 ' |
 while read chrom start end strand cov ag; do
   s=0;
 
@@ -53,8 +53,8 @@ while read chrom start end strand cov ag; do
       echo chr$chrom $up_start $up_end chr$chrm:$start-$end-$cov-$ag 1 $strand $up_start $up_end 255,0,0 >> $UpBedFile
   fi
 
-  #echo ">($strand-$cov-$ag)chr$chrom:$start-$end"	>> $FAFILE
-  #$POS2SEQ chr$chrom:$up_start-$up_end			>> $FAFILE
+  echo ">($strand-$cov-$ag)chr$chrom:$start-$end"	>> $FAFILE
+  $POS2SEQ chr$chrom:$up_start-$up_end			>> $FAFILE
 
   #print to bed file
   echo "chr$chrom $start $end miRNAcand$i 1 $strand $start $end 0,0,255 " >> $InBedFile

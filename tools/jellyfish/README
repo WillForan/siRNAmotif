@@ -5,5 +5,8 @@ jellyfish dump top300_up100nt* | awk '{if(NR%2==1){ printf substr($0,2) }else{pr
 #to run on a bunch of data (top300, upgene, ingene, logo)
 run_jelly.sh
 
-#to search for motifs using kmer words
-./mkPWM.pl -r -k5
+#get best PWM and put it into a file
+./mkPWM.pl  -k5  | awk '(NR==1){print $2, "> 350";} > top_motif_5mer.motif
+
+#scan file for motifs
+./motifMatchingSeq.pl -m top_motif_5mer.motif

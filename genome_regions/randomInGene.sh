@@ -6,7 +6,7 @@ numseqs=300
 seqlength=1000
 if [ -n "$1" ]; then
  seqlength=$1
- echo "upstream set to $Upstream" 1>&2
+ echo "upstream set to $seqlength" 1>&2
 fi
 
 i=0

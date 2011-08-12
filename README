@@ -4,8 +4,9 @@ DATA: sRNA deep-seq -> selected "top" 300 (see SQL statement in genfasta: 18<len
 
 #make fasta
 cd genome_regions/
-./randomInGene.sh 1000 #../fas/randomInGene_${seqlength}-$(date +%F-%H-%M).fa
-./candidateFasta.sh > ../fas/300_top_1000.fa
+./randomInGene.sh #1000 #../fas/randomInGene_${seqlength}-$(date +%F-%H-%M).fa
+./candidateFasta.sh 
+RUF6/mkUp.sh #upstream of RUF6
 
 #mask and count
 cd ../
@@ -15,9 +16,7 @@ KMER=7 ./maskAndCount.sh
 
 #get matrix
 cd tools/jellyfish/
-export MKPWM_BACK='jellyout/masked/randomInGene-...'
-export MKPWM_FOR='jellyout/masked/300_top_...'
-./mkPWM.sh > motifs/5mer.motifs
+./mkPWM.pl -r -k5 #see mkPWM.pl -h
 
 #get sequences matching
 

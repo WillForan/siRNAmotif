@@ -1,3 +1,7 @@
+-----RNACoding
+1) mkUpFromRNAcoding.sh {tRNA,snoR,RUF} [check]
+  puts 1000ntUp$1 in directory $1
+
 -----genetic
 
 1) geneticFromGFF.sh

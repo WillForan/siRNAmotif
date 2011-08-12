@@ -37,11 +37,12 @@ my $maxMismatch= $opt{m} || 2;	#set to 40% length in GEMS paper
 my $foreground = defined $opt{k} ? "jellyout/masked/300_top_1000-$opt{k}_0" :0 ||
 		 $opt{f} || 
 		 'jellyout/masked/300_top_1000-6_0';
-my $background = defined $opt{k} ? "jellyout/masked/randomInGene-2011-05-25-15-10-$opt{k}_0" :0 ||
+my $background = defined $opt{k} ? "jellyout/masked/randomInGene_100-2011-06-30-13-42-$opt{k}_0" :0 ||
 		 $opt{b} || 
-                 'jellyout/masked/randomInGene-2011-05-25-15-10-6_0';
+                 'jellyout/masked/randomInGene_100-2011-06-30-13-42-6_0';
+#		 'jellyout/masked/randomInGene-2011-05-25-15-10-6_0';
 
-#print STDERR "$foreground $background\n"; exit;
+print STDERR "f: $foreground\nb: $background\n"; 
 
 #data strcuture
 #$seq[1]=[ 'AAAAA', 3, 134 ]
