@@ -27,13 +27,13 @@ fi
 #pull in runDECOD function
 source runDECOD.sh
 width=$2;
-if [ "$3" == "29" ] || [ "$3 x"= " x"]; then
+if [ "$3" == "29" ] || [ "$3 x" == " x" ]; then
 runDECOD $foreground \
 	$background1 \
 	$1VsG1000_29.txt \
 	$width 
 fi
-if [ "$3" == "35" ] || [ "$3 x"= " x"]; then
+if [ "$3" == "35" ] || [ "$3 x" == " x"]; then
 runDECOD $foreground \
 	$background2 \
 	$1VsG1000_35.txt \
