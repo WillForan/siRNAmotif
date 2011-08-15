@@ -4,14 +4,7 @@ use v5.10;
 ####
 # Flatten -- print motif, score, background, etc as one line per positive match
 #
-# used like:
-#    for type in {snoR,snRNA,tRNA,RUF6}; do ./flatten.pl {6,7,8,9}/${type}VsG1000_{29,35}.txt > flat/$type.txt; done;
-#    
-# Output
-#      1             2                  3                4
-#    Width[6-9], NegSeat [29.35],   motifNum [1-10], Motif score, 
-#           5         6              7        8              9    
-#    indv score,    Motif,   idv match seq, pos of match , $locus. $rc
+# perl flatten.pl {6,7,8,9}/300ntVsG1000_{29,35}.txt > flattened.txt
 ####
 my $negSet=29;
 my $width=6;
@@ -72,7 +65,7 @@ while(<>){
 	when(m/^#Motif instances in positive sequences: $/){ $positive=1}
 	when(m/^$/){ $positive=0}
 	default{
-	    # >(+-13715.3-PFA0375c)chr1:308823-308844|revcom  285     TATGTG  7.3440
+	    #>chr4:563352-564352|revcom	256	TAGACA	5.7760
 	    m/^>(chr\d+:\d+-\d+)(\|revcom)?\t(\d+)\t([ATGCatgcN]+)\t(\d+.?\d+)$/;
 	    next if !$&;
 	    my $locus=$1;
